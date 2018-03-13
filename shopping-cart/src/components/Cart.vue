@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <div id="cart" class="cart">
+  <div id="cart" class="cart container">
     Cart
   </div>
   <!-- ./cart -->
