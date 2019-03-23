@@ -1,6 +1,6 @@
-# shopping-cart
+# pizz-app
 
-> A Vue.js Demo
+> A Vue.js project
 
 ## Build Setup
 
