@@ -1,4 +1,4 @@
-# shopping-cart
+# pizz-app
 
 > A Vue.js Demo
 
