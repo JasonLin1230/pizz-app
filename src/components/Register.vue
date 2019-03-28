@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data(){
         return{
@@ -36,7 +38,18 @@ export default {
     },
     methods:{
         onSubmit (){
-
+            if(this.password === this.confirmPassword){
+                const formData={
+                    email:this.email,
+                    password:this.password
+                }
+                axios.post('/users.json',formData)
+                     .then(res => {
+                         this.$router.push({name:'loginLink'});
+                     })
+            }else{
+                alert("两次密码不一致！")
+            }
         }
     }
 }
