@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data(){
         return{
@@ -81,14 +82,25 @@ export default {
     },
     methods:{
         fetchData(){
-            fetch("https://wd1690947960ggenrc.wilddogio.com/menu.json")
-                .then(res => {
-                    return res.json()
-                })
-                .then(data => {
-                    this.getMenuItems = data
-                    console.log(this.getMenuItems)
-                })
+            // 使用fetch
+            // fetch("https://wd1690947960ggenrc.wilddogio.com/menu.json")
+            //     .then(res => {
+            //         return res.json()
+            //     })
+            //     .then(data => {
+            //         this.getMenuItems = data
+            //         console.log(this.getMenuItems)
+            //     })
+
+            // 使用axios
+            // axios.get("menu.json").then(res => {
+            //     this.getMenuItems = res.data
+            // })
+
+            // 使用Vue原型
+            this.http.get("menu.json").then(res => {
+                this.getMenuItems = res.data
+            })
         },
         addToBasket(item,option){
             let basket={

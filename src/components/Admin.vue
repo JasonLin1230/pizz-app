@@ -72,6 +72,18 @@ export default {
                     this.getMenuItem=menuArr;
                 }
             })
+
+        // this.http.get("menu.json").then(data => {
+        //     let menuArr=[];
+        //     for (const key in data) {
+        //         if (data.hasOwnProperty(key)) {
+        //             const element = data[key];//key为唯一标识,data[key]为对应的对象
+        //             data[key].id=key;
+        //             menuArr.push(element);
+        //         }
+        //         this.getMenuItem=menuArr;
+        //     }
+        // })
     },
     methods:{
         deleteMenu(item){

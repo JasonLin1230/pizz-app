@@ -4,6 +4,9 @@ import VueRouter from 'vue-router'
 import { routes } from './routes'
 import axios from 'axios'
 
+// 配置Vue原型
+Vue.prototype.http=axios
+
 Vue.use(VueRouter)
 
 axios.defaults.baseURL="https://wd1690947960ggenrc.wilddogio.com/";
