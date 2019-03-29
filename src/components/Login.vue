@@ -33,7 +33,28 @@ export default {
     },
     methods:{
         onSubmit (){
-            axios.post()
+            axios.get('/users.json')
+                 .then(res =>{
+                     const data=res.data;
+                     const users=[];
+                     for (const key in data) {
+                         if (data.hasOwnProperty(key)) {
+                             const element = data[key];
+                             users.push(element);
+                         }
+                     }
+                    //  实现过滤
+                    let result=users.filter((user) =>{
+                        return (user.email === this.email && user.password === this.password)
+                    })
+
+                    // 判断是否成功匹配
+                    if(result != null && result.length >0){
+                        this.$router.push({name:'homeLink'})
+                    }else{
+                        alert("账号或密码错误！");
+                    }
+                 })
         }
     }
 }
