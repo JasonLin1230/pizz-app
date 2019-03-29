@@ -1,7 +1,29 @@
 <template>
-    <h2>管理</h2>
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <new-app-pizza></new-app-pizza>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <h3 class="text-muted my-5">菜单</h3>
+            <table class="table">
+                <thead class="table table-default">
+                    <tr>
+                        <th>品种</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody v-for="item in getMenuItem" :key="item.id">
+                    <tr>
+                        <td>{{item.name}}</td>
+                        <td><button @click="deleteMenu(item)" class="btn btn-outline-danger btn-sm">&times;</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </template>
 <script>
+import NewPizza from "./admin/NewPizza";
 export default {
     // data(){
     //     return{
@@ -24,5 +46,45 @@ export default {
     //         next(false);
     //     }
     // })
+
+    data(){
+        return{
+            getMenuItem:[]
+        }
+    },
+    components:{
+        "new-app-pizza":NewPizza
+    },
+    created(){
+        fetch("https://wd1690947960ggenrc.wilddogio.com/menu.json")
+            .then(res => {
+                return res.json()
+            })
+            .then(data => {
+                // console.log(data);
+                let menuArr=[];
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        const element = data[key];//key为唯一标识,data[key]为对应的对象
+                        data[key].id=key;
+                        menuArr.push(element);
+                    }
+                    this.getMenuItem=menuArr;
+                }
+            })
+    },
+    methods:{
+        deleteMenu(item){
+            fetch("https://wd1690947960ggenrc.wilddogio.com/menu/"+item.id+"/.json",{
+                method:"DELETE",
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => this.$router.push({name:'menuLink'}))
+            .catch(err => console.log(err))
+        }
+    }
 }
 </script>

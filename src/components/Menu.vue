@@ -12,12 +12,16 @@
                 </thead>
                 <tbody v-for="item in getMenuItems" :key="item.name">
                     <tr>
-                        <td><strong>{{item.name}}</strong></td>
+                    <td><strong>{{item.name}}</strong></td>
                     </tr>
                     <tr v-for="option in item.options" :key="option.size">
-                        <td>{{option.size}}</td>
-                        <td>{{option.price}}</td>
-                        <td><button @click="addToBasket(item,option)" class="btn btn-sm btn-outline-success">+</button></td>
+                    <td>{{option.size}}</td>
+                    <td>{{option.price}}</td>
+                    <td>
+                        <button 
+                        @click="addToBasket(item,option)"
+                        class="btn btn-sm btn-outline-success">+</button>
+                    </td>
                     </tr>
                 </tbody>
             </table>
@@ -35,7 +39,7 @@
                     </thead>
                     <tbody v-for="item in baskets" :key="item.price">
                         <tr>
-                            <td>{{item.name}}{{item.size}}寸</td>
+                            <td>{{item.name}} {{item.size}}寸</td>
                             <td>
                                 <button type="button" @click="decreaseQuantity(item)" class="btn btn-light btn-sm">-</button>
                                 <span>{{item.quantity}}</span>
@@ -59,41 +63,7 @@ export default {
         return{
             baskets:[],
             basketEmpty:'购物车中还没有商品哦',
-            getMenuItems:{
-                1: {
-                    'name': '榴莲pizza',
-                    'description': '这是喜欢吃榴莲朋友的最佳选择',
-                    'options': [{
-                        'size': 9,
-                        'price': 38
-                    }, {
-                        'size': 12,
-                        'price': 48
-                    }]
-                },
-                2: {
-                    'name': '芝士pizza',
-                    'description': '芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚',
-                    'options': [{
-                        'size': 9,
-                        'price': 38
-                    }, {
-                        'size': 12,
-                        'price': 48
-                    }]
-                },
-                3: {
-                    'name': '夏威夷pizza',
-                    'description': '众多人的默认选择',
-                    'options': [{
-                        'size': 9,
-                        'price': 36
-                    }, {
-                        'size': 12,
-                        'price': 46
-                    }]
-                }
-            }
+            getMenuItems:{}
         }
     },
     computed:{
@@ -106,7 +76,20 @@ export default {
             return totalCost;
         }
     },
+    created(){
+        this.fetchData()
+    },
     methods:{
+        fetchData(){
+            fetch("https://wd1690947960ggenrc.wilddogio.com/menu.json")
+                .then(res => {
+                    return res.json()
+                })
+                .then(data => {
+                    this.getMenuItems = data
+                    console.log(this.getMenuItems)
+                })
+        },
         addToBasket(item,option){
             let basket={
                 name:item.name,
@@ -142,4 +125,40 @@ export default {
         }
     }
 }
+
+// const testData={
+//         1: {
+//             'name': '榴莲pizza',
+//             'description': '这是喜欢吃榴莲朋友的最佳选择',
+//             'options': [{
+//                 'size': 9,
+//                 'price': 38
+//             }, {
+//                 'size': 12,
+//                 'price': 48
+//             }]
+//         },
+//         2: {
+//             'name': '芝士pizza',
+//             'description': '芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚',
+//             'options': [{
+//                 'size': 9,
+//                 'price': 38
+//             }, {
+//                 'size': 12,
+//                 'price': 48
+//             }]
+//         },
+//         3: {
+//             'name': '夏威夷pizza',
+//             'description': '众多人的默认选择',
+//             'options': [{
+//                 'size': 9,
+//                 'price': 36
+//             }, {
+//                 'size': 12,
+//                 'price': 46
+//             }]
+//         }
+//     }
 </script>
