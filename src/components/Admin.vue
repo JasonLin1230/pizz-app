@@ -12,7 +12,7 @@
                         <th>删除</th>
                     </tr>
                 </thead>
-                <tbody v-for="item in getMenuItem" :key="item.id">
+                <tbody v-for="item in getMenuItems" :key="item.id">
                     <tr>
                         <td>{{item.name}}</td>
                         <td><button @click="deleteMenu(item)" class="btn btn-outline-danger btn-sm">&times;</button></td>
@@ -49,7 +49,18 @@ export default {
 
     data(){
         return{
-            getMenuItem:[]
+            // getMenuItem:[]
+        }
+    },
+    computed:{
+        // getMenuItems(){ //方法
+        getMenuItems:{ //属性
+            get(){
+                return this.$store.state.menuItems
+            },
+            set(){
+
+            }
         }
     },
     components:{
@@ -69,7 +80,10 @@ export default {
                         data[key].id=key;
                         menuArr.push(element);
                     }
-                    this.getMenuItem=menuArr;
+                    // this.getMenuItem=menuArr;
+                    // 更改数据,同步vuex
+                    this.$store.commit("setMenuItems",menuArr)
+
                 }
             })
 
@@ -94,7 +108,11 @@ export default {
                 }
             })
             .then(res => res.json())
-            .then(data => this.$router.push({name:'menuLink'}))
+            // .then(data => this.$router.push({name:'menuLink'}))
+            // 当前页面直接刷新
+            .then(data => {
+                this.$store.commit("deleteMenuItem",item)
+            })
             .catch(err => console.log(err))
         }
     }

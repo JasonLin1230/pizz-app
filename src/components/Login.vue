@@ -49,13 +49,22 @@ export default {
                     })
 
                     // 判断是否成功匹配
-                    if(result != null && result.length >0){
+                    if(result != null && result.length > 0){
+                        this.$store.dispatch("setUser",result[0].email)//使用commit也可以
                         this.$router.push({name:'homeLink'})
                     }else{
                         alert("账号或密码错误！");
+                        this.$store.dispatch("setUser",null)
                     }
                  })
         }
+    },
+    //beforeRouteEnter(to,from,next)  {//导航守卫
+    beforeRouteEnter: (to,from,next)  => {
+        // this无法获取到
+        next(vm => {
+            vm.$store.dispatch("setUser",null)
+        })
     }
 }
 </script>

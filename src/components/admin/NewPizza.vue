@@ -13,6 +13,7 @@
                 <textarea row="10" class="form-control" v-model="newPizza.description"></textarea>
             </div>
         </div>
+        <br>
         <p><strong>选项一</strong></p>
         <div class="form-group row">
             <label for="type" class="col-sm-1">尺寸</label>
@@ -26,6 +27,7 @@
                 <input type="text" class="form-control" v-model="newPizza.price1">
             </div>
         </div>
+        <br>
         <p><strong>选项二</strong></p>
         <div class="form-group row">
             <label for="type" class="col-sm-1">尺寸</label>
@@ -54,7 +56,7 @@ export default {
     },
     methods:{
         addMenuItem(){
-            let data = {
+            let newItem = {
                 name:this.newPizza.name,
                 description:this.newPizza.description,
                 options:[
@@ -80,8 +82,10 @@ export default {
             //   .then(data => this.$router.push({name:"menuLink"}))
             //   .catch(err => console.log(err))
              
-             this.http.post("menu.json",data).then(data => {
-                 this.$router.push({name:'menuLink'})
+             this.http.post("menu.json",newItem).then(data => {
+                // this.$router.push({name:'menuLink'})
+                // 不跳转，直接更新vuex，立即刷新
+                this.$store.commit("pushToMenuItems",newItem)
              })
         }
     }

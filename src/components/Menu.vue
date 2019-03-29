@@ -64,7 +64,7 @@ export default {
         return{
             baskets:[],
             basketEmpty:'购物车中还没有商品哦',
-            getMenuItems:{}
+            // getMenuItems:{} //使用vuex后不需要
         }
     },
     computed:{
@@ -75,6 +75,9 @@ export default {
                 totalCost += indivdualItem.price * indivdualItem.quantity;
             }
             return totalCost;
+        },
+        getMenuItems(){
+            return this.$store.state.menuItems
         }
     },
     created(){
@@ -98,9 +101,12 @@ export default {
             // })
 
             // 使用Vue原型
-            this.http.get("menu.json").then(res => {
-                this.getMenuItems = res.data
-            })
+            // this.http.get("menu.json").then(res => {
+            //     this.getMenuItems = res.data
+            // })
+
+            // 使用Vuex
+            this.http.get("menu.json").then(res => this.$store.commit("setMenuItems",res.data))
         },
         addToBasket(item,option){
             let basket={
